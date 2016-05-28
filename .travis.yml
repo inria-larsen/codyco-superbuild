@@ -7,22 +7,22 @@ matrix:
   include:
     - os: linux
       compiler: clang
-      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug"
+      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug", CODYCO_USES_GAZEBO="ON"
     - os: linux
       compiler: clang
-      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Release"
+      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Release", CODYCO_USES_GAZEBO="ON"
     - os: linux
       compiler: gcc
-      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug"
+      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug", CODYCO_USES_GAZEBO="ON"
     - os: linux
       compiler: gcc
-      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Release"
+      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Release", CODYCO_USES_GAZEBO="ON"
     - os: osx
       compiler: gcc
-      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug"
+      env: TRAVIS_CMAKE_GENERATOR="Unix Makefiles", TRAVIS_BUILD_TYPE="Debug", CODYCO_USES_GAZEBO="OFF"
     - os: osx
       compiler: clang
-      env: TRAVIS_CMAKE_GENERATOR="Xcode", TRAVIS_BUILD_TYPE="Release"
+      env: TRAVIS_CMAKE_GENERATOR="Xcode", TRAVIS_BUILD_TYPE="Release", CODYCO_USES_GAZEBO="OFF"
 
 before_script:
   - sh .ci/travis-deps.sh
@@ -31,7 +31,7 @@ script:
   - cmake --version
   - mkdir build
   - cd build
-  - cmake -G"${TRAVIS_CMAKE_GENERATOR}" -DCODYCO_BUILD_OCRA_MODULES:BOOL=ON -DCODYCO_TRAVIS_CI:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE} -DNON_INTERACTIVE_BUILD:BOOL=TRUE ..
+  - cmake -G"${TRAVIS_CMAKE_GENERATOR}" -DCODYCO_BUILD_OCRA_MODULES:BOOL=ON -DCODYCO_TRAVIS_CI:BOOL=ON -DCODYCO_USES_GAZEBO:BOOL=${CODYCO_USES_GAZEBO} -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE} -DNON_INTERACTIVE_BUILD:BOOL=TRUE ..
   - sh ../.ci/travis-build.sh
 
 notifications:
